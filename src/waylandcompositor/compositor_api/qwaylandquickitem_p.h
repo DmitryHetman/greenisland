@@ -155,7 +155,7 @@ public:
     }
 
     bool shouldSendInputEvents() const { return view->surface() && inputEventsEnabled; }
-    int scaleFactor() const { return view->output() ? view->output()->scaleFactor() : 1; }
+    int scaleFactor() const { return view->surface() ? view->surface()->bufferScale() : 1; }
 
     static QMutex *mutex;
 

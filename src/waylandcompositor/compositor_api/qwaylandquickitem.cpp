@@ -877,7 +877,7 @@ void QWaylandQuickItem::updateSize()
 {
     Q_D(QWaylandQuickItem);
     if (d->sizeFollowsSurface && surface()) {
-        setSize(surface()->size() * (d->scaleFactor() / surface()->bufferScale()));
+        setSize(surface()->size() / d->scaleFactor());
     }
 }
 

@@ -639,8 +639,9 @@ QPointF ClientWindow::randomPosition() const
     Q_D(const ClientWindow);
 
     // Surface size
-    const int w = d->surface->size().width();
-    const int h = d->surface->size().height();
+    const QSize surfaceSize = d->surface->size() / d->surface->bufferScale();
+    const int w = surfaceSize.width();
+    const int h = surfaceSize.height();
 
     // Find the output where the pointer is located, defaults
     // to the default output
