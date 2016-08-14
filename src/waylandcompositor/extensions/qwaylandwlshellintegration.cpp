@@ -230,8 +230,7 @@ bool WlShellIntegration::mouseMoveEvent(QMouseEvent *event)
             resizeState.initialized = true;
             return true;
         }
-        float scaleFactor = m_item->view()->output()->scaleFactor();
-        QPointF delta = (event->windowPos() - resizeState.initialMousePos) / scaleFactor;
+        QPointF delta = m_item->mapToSurface(event->windowPos() - resizeState.initialMousePos);
         QSize newSize = m_shellSurface->sizeForResize(resizeState.initialSize, delta, resizeState.resizeEdges);
         m_shellSurface->sendConfigure(newSize, resizeState.resizeEdges);
     } else if (grabberState == GrabberState::Move) {

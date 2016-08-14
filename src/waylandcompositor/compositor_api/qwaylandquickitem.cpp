@@ -500,7 +500,7 @@ void QWaylandQuickItem::mousePressEvent(QMouseEvent *event)
     if (d->focusOnClick)
         takeFocus(seat);
 
-    seat->sendMouseMoveEvent(d->view.data(), mapToSurface(event->localPos()), event->windowPos());
+    seat->sendMouseMoveEvent(d->view.data(), event->localPos(), event->windowPos());
     seat->sendMousePressEvent(event->button());
 }
 
@@ -519,11 +519,10 @@ void QWaylandQuickItem::mouseMoveEvent(QMouseEvent *event)
             QWaylandSurface *targetSurface = targetItem ? targetItem->surface() : nullptr;
             if (targetSurface) {
                 QPointF position = mapToItem(targetItem, event->localPos());
-                QPointF surfacePosition = targetItem->mapToSurface(position);
-                seat->drag()->dragMove(targetSurface, surfacePosition);
+                seat->drag()->dragMove(targetSurface, position);
             }
         } else {
-            seat->sendMouseMoveEvent(d->view.data(), mapToSurface(event->localPos()), event->windowPos());
+            seat->sendMouseMoveEvent(d->view.data(), event->localPos(), event->windowPos());
         }
     } else {
         emit mouseMove(event->windowPos());
@@ -583,7 +582,7 @@ void QWaylandQuickItem::hoverMoveEvent(QHoverEvent *event)
     }
     if (d->shouldSendInputEvents()) {
         QWaylandSeat *seat = compositor()->seatFor(event);
-        seat->sendMouseMoveEvent(d->view.data(), mapToSurface(event->pos()), mapToScene(event->pos()));
+        seat->sendMouseMoveEvent(d->view.data(), event->pos(), mapToScene(event->pos()));
     } else {
         event->ignore();
     }
@@ -921,7 +920,7 @@ void QWaylandQuickItem::setFocusOnClick(bool focus)
 bool QWaylandQuickItem::inputRegionContains(const QPointF &localPosition)
 {
     if (QWaylandSurface *s = surface())
-        return s->inputRegionContains(mapToSurface(localPosition).toPoint());
+        return s->inputRegionContains(localPosition.toPoint());
     return false;
 }
 
